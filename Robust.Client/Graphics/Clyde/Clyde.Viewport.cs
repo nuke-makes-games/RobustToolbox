@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Robust.Client.Graphics.ClientEye;
 using Robust.Client.Interfaces.Graphics;
@@ -13,11 +13,12 @@ namespace Robust.Client.Graphics.Clyde
         private readonly Dictionary<ClydeHandle, WeakReference<Viewport>> _viewports =
             new Dictionary<ClydeHandle, WeakReference<Viewport>>();
 
-        private Viewport CreateViewport(Vector2i size, string? name = null)
+        private Viewport CreateViewport(Vector2i size, Vector2i offset, string? name = null)
         {
             var handle = AllocRid();
             var viewport = new Viewport(handle, name, this)
             {
+                Offset = offset,
                 Size = size,
                 RenderTarget = CreateRenderTarget(size,
                     new RenderTargetFormatParameters(RenderTargetColorFormat.Rgba8Srgb, true),
@@ -33,10 +34,10 @@ namespace Robust.Client.Graphics.Clyde
 
         IClydeViewport IClyde.CreateViewport(Vector2i size, string? name)
         {
-            return CreateViewport(size, name);
+            return CreateViewport(size, Vector2i.Zero, name);
         }
 
-        private static Vector2 ScreenToMap(Vector2 point, Viewport vp)
+        private static Vector2 ScreenToMap(Vector2 point, Viewport vp, Vector2i frameBufferSize)
         {
             if (vp.Eye == null)
             {
@@ -82,6 +83,9 @@ namespace Robust.Client.Graphics.Clyde
         {
             private readonly ClydeHandle _handle;
             private readonly Clyde _clyde;
+
+            // Offset of viewport from top left corner
+            public Vector2i Offset = Vector2i.Zero;
 
             // Primary render target.
             public RenderTexture RenderTarget = default!;

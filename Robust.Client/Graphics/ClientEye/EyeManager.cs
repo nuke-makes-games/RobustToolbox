@@ -70,7 +70,11 @@ namespace Robust.Client.Graphics.ClientEye
 
             // (inlined version of UiProjMatrix)
             newPoint *= new Vector2(1, -1) * PixelsPerMeter;
-            newPoint += _displayManager.ScreenSize / 2f;
+            // newPoint += _displayManager.ScreenSize / 2f;
+
+            var viewportSize = PixelsPerMeter * 2 * 19;
+
+            newPoint += new Vector2i((int)(_displayManager.ScreenSize.X * 0.5f), (int)(viewportSize * 0.5f));
 
             return newPoint;
         }
@@ -118,9 +122,12 @@ namespace Robust.Client.Graphics.ClientEye
         public MapCoordinates ScreenToMap(Vector2 point)
         {
             var newPoint = point;
+            var viewportSize = PixelsPerMeter * 2 * 19;
+
+            newPoint -= new Vector2i((int)(_displayManager.ScreenSize.X * 0.5f), (int)(viewportSize * 0.5f));
 
             // (inlined version of UiProjMatrix^-1)
-            newPoint -= _displayManager.ScreenSize / 2f;
+            // newPoint -= _displayManager.ScreenSize / 2f;
             newPoint *= new Vector2(1, -1) / PixelsPerMeter;
 
             // view matrix

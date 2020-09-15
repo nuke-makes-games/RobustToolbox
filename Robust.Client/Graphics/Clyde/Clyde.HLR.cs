@@ -78,7 +78,7 @@ namespace Robust.Client.Graphics.Clyde
                 var handle = _renderHandle.DrawingHandleScreen;
                 var tex = _mainViewport.RenderTarget.Texture;
 
-                handle.DrawTexture(tex, (0, 0));
+                handle.DrawTexture(tex, (_mainViewport.Offset.X, _mainViewport.Offset.Y));
                 FlushRenderQueue();
             }
 

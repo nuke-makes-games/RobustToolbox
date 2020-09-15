@@ -692,8 +692,8 @@ namespace Robust.Client.Graphics.Clyde
 
         private void DrawBlit(Viewport vp, GLShaderProgram shader)
         {
-            var a = ScreenToMap((-1, -1), vp);
-            var b = ScreenToMap(vp.Size + Vector2i.One, vp);
+            var a = ScreenToMap((-1, -1), vp, _framebufferSize);
+            var b = ScreenToMap(vp.Size + Vector2i.One, vp, _framebufferSize);
 
             _drawQuad(a, b, Matrix3.Identity, shader);
         }

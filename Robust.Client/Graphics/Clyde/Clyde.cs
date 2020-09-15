@@ -325,13 +325,10 @@ namespace Robust.Client.Graphics.Clyde
 
         private void CreateMainViewport()
         {
-            var (w, h) = _framebufferSize;
+            var viewportSize = EyeManager.PixelsPerMeter * 2 * 19; // need a way to figure out if the viewport is zoomed 2x or not
+            var x = Convert.ToInt32((_framebufferSize.X * 0.5f) - (viewportSize * 0.5));
 
-            // Ensure viewport size is always even to avoid artifacts.
-            if (w % 2 == 1) w += 1;
-            if (h % 2 == 1) h += 1;
-
-            _mainViewport = CreateViewport((w, h), nameof(_mainViewport));
+            _mainViewport = CreateViewport((viewportSize, viewportSize), (x, 0), nameof(_mainViewport));
         }
 
         [Conditional("DEBUG")]
